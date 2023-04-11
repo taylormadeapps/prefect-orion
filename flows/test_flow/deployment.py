@@ -11,7 +11,7 @@ minio_block = RemoteFileSystem(
         "use_ssl" : False,
         "key" :"blablabla",
         "secret" : "blablabla",
-        "client_kwargs" : {"endpoint_url": "http://promethea2.local:9000"}
+        "client_kwargs" : {"endpoint_url": "http://promethea-redux.local:9000"}
     },
 )
 minio_block.save("minio", overwrite=True)

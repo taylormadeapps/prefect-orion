@@ -9,7 +9,8 @@ services:
   # --------------------------------------#
   #               Postgres                #
   # --------------------------------------#
-  postgres:
+  prefect-postgres:
+    container_name: prefect-postgres
     image: postgres:14
     command:
       - postgres
@@ -17,7 +18,7 @@ services:
       - max_connections=150
     environment:
       POSTGRES_USER: prefect
-      POSTGRES_PASSWORD: test-password
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: prefect_server
     healthcheck:
       interval: 10s
@@ -37,6 +38,7 @@ services:
   #             Prefect Server            #
   # --------------------------------------#
   prefect-server:
+    container_name: prefect-server
     image: ${PREFECT_SERVER_IMAGE}
     command:
       - prefect
@@ -45,23 +47,24 @@ services:
     ports:
       - 4200:4200
     depends_on:
-      postgres:
+      prefect-postgres:
         condition: service_started
     volumes:
       - ${PWD}/volumes/prefect:/root/.prefect
       - ${PWD}/flows:/flows
     environment:
       PREFECT_ORION_API_HOST: 0.0.0.0
-      PREFECT_ORION_DATABASE_CONNECTION_URL: postgresql+asyncpg://prefect:test-password@postgres:5432/prefect_server
+      PREFECT_ORION_DATABASE_CONNECTION_URL: postgresql+asyncpg://prefect:${POSTGRES_PASSWORD}@prefect-postgres:5432/prefect_server
       PREFECT_ORION_ANALYTICS_ENABLED: "false"
       PREFECT_LOGGING_SERVER_LEVEL: DEBUG
-      PREFECT_API_URL: http://promethea2.local:4200/api
+      PREFECT_API_URL: ${PREFECT_API_URL}
     networks:
       - prefect
   # --------------------------------------#
   #             Docker Agent              #
   # --------------------------------------#
   prefect-agent:
+    container_name: prefect-agent
     image: ${PREFECT_AGENT_IMAGE}
     command:
       - prefect
@@ -87,10 +90,11 @@ services:
   #         Minio for storage             #
   # --------------------------------------#
   minio:
+    container_name: minio
     image: minio/minio
     environment:
-      - MINIO_ROOT_USER=blablabla
-      - MINIO_ROOT_PASSWORD=blablabla
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     volumes:
       - ./volumes/minio:/data
     entrypoint: /bin/bash 

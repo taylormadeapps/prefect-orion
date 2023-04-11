@@ -1,5 +1,5 @@
- IMAGE_NAME := prefect-orion
-IMAGE_TAG := 2.4.5
+IMAGE_NAME := encircle/enact-prefect
+IMAGE_TAG := latest
 IMAGE := ${IMAGE_NAME}:${IMAGE_TAG}
 IMAGE_HASH := $(shell command docker images -q ${IMAGE} 2> /dev/null)
 
