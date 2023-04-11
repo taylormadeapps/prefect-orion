@@ -54,8 +54,8 @@ services:
       PREFECT_ORION_API_HOST: 0.0.0.0
       PREFECT_ORION_DATABASE_CONNECTION_URL: postgresql+asyncpg://prefect:test-password@postgres:5432/prefect_server
       PREFECT_ORION_ANALYTICS_ENABLED: "false"
-      PREFECT_LOGGING_SERVER_LEVEL: WARNING
-      PREFECT_API_URL: http://prefect-server:4200/api
+      PREFECT_LOGGING_SERVER_LEVEL: DEBUG
+      PREFECT_API_URL: http://promethea2.local:4200/api
     networks:
       - prefect
   # --------------------------------------#
@@ -75,9 +75,11 @@ services:
     environment:
       PREFECT_API_URL: http://prefect-server:4200/api
       PREFECT_LOGGING_LEVEL: DEBUG
-      DOCKER_HOST: unix://var/run/docker.sock
+      #DOCKER_HOST: unix://var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ${PWD}/volumes/prefect:/root/.prefect
+      - ${PWD}/flows:/flows
     networks:
       - prefect
 
