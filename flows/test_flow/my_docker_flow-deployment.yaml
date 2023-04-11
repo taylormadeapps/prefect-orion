@@ -1,0 +1,60 @@
+###
+### A complete description of a Prefect Deployment for flow 'my-docker-flow'
+###
+name: test-flow
+description: null
+version: b1b8241351d3ad507d67f9ed35be353e
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: default-agent-pool
+tags: []
+parameters: {}
+schedule: null
+is_schedule_active: true
+infra_overrides: {}
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: my-docker-flow
+manifest_path: null
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  _block_document_id: a979fbe9-49bd-4ca3-bf71-35e5ba08a96d
+  _block_document_name: anonymous-704558c2-094b-4c45-8752-3d0fc8c1244f
+  _is_anonymous: true
+  block_type_slug: process
+  _block_type_slug: process
+storage:
+  basepath: s3://prefect-flows/test_flow
+  settings:
+    use_ssl: false
+    key: miniouser
+    secret: asw-about-F4c3!
+    client_kwargs:
+      endpoint_url: http://promethea-redux.local:9000
+  _block_document_id: b4dc3dc5-9016-4629-b88e-7aa3ad708bed
+  _block_document_name: minio
+  _is_anonymous: false
+  block_type_slug: remote-file-system
+  _block_type_slug: remote-file-system
+path: ''
+entrypoint: test_flow.py:my_docker_flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    question:
+      title: question
+      position: 0
+      type: string
+  required:
+  - question
+  definitions: null
+timestamp: '2023-04-11T16:58:37.991767+00:00'
