@@ -46,6 +46,8 @@ services:
       - start
     ports:
       - 4200:4200
+    expose:
+      - "4200"
     depends_on:
       prefect-postgres:
         condition: service_started
