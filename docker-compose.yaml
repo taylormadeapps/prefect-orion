@@ -20,6 +20,7 @@ services:
       POSTGRES_USER: prefect
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: prefect_server
+    restart: unless-stopped
     healthcheck:
       interval: 10s
       retries: 60
@@ -60,6 +61,7 @@ services:
       PREFECT_ORION_ANALYTICS_ENABLED: "false"
       PREFECT_LOGGING_SERVER_LEVEL: DEBUG
       PREFECT_API_URL: ${PREFECT_API_URL}
+    restart: unless-stopped
     networks:
       - prefect
   # --------------------------------------#
@@ -101,6 +103,7 @@ services:
       - ./volumes/minio:/data
     entrypoint: /bin/bash 
     command: "-c 'mkdir -p /data/prefect-flows && sleep 10 && minio server /data --console-address :9001'"
+    restart: unless-stopped
     ports:
       - published: 9000
         target: 9000
